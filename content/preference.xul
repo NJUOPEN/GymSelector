@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE page SYSTEM "chrome://unmht/locale/">
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <prefpane id="pane_save">
+    <preferences>
+      <preference id="GymSelector.prefCourse"
+                  name="extensions.xulschoolhello.prefCourse"
+                  type="string"/>
+    </preferences>
+
+
+		<caption label="默认课程：" />
+		<textbox preference="GymSelector.prefCourse" style="min-width: 8em;"/>
+  </prefpane>
+</overlay>

@@ -20,5 +20,6 @@
         <em:maxVersion>10.*</em:maxVersion>
       </Description>
     </em:targetApplication>
+    <em:optionsURL>chrome://xulschoolhello/content/preference.xul</em:optionsURL>
   </Description>
 </RDF>
