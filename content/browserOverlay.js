@@ -43,8 +43,17 @@ XULSchoolChrome.findCourse = function(doc){
 	var table=doc.getElementById('tbCourseList');
 	if (!table) return;
 	
-	var preferredCourse = 'XXX';
-	//TODO:查找课程ID，并提交
+	var db = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);	//获取Firefox的数据库
+	var preferredCourse=db.getComplexValue('extensions.xulschoolhello.prefCourse',
+      Components.interfaces.nsISupportsString).data;	//根据preference.xul中定义的选项名获取对应数据（课程名）
+	if (!preferredCourse || preferredCourse=='')
+	{
+		alert('未设置课程。请先在插件“首选项”中设置课程！');
+		return;
+	}
+	
+	//TODO:根据preferredCourse查找课程ID，并提交
+	//参考：体育选课.htm
 	
 }
 
