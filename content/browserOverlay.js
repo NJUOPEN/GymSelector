@@ -44,8 +44,6 @@ XULSchoolChrome.onPageLoad = function(aEvent) {
 
 //查找可能的课程列表并自动提交
 XULSchoolChrome.findCourse = function(doc){
-	var table=doc.getElementById('tbCourseList');
-	if (!table) return;
 	
 	var db = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);	//获取Firefox的数据库
 	var preferredCourse=db.getComplexValue('extensions.xulschoolhello.prefCourse',
@@ -55,6 +53,9 @@ XULSchoolChrome.findCourse = function(doc){
 		alert('未设置课程。请先在插件“首选项”中设置课程！');
 		return;
 	}
+	
+	var table=doc.getElementById('tbCourseList');
+	if (!table) return;
 	
 	//TODO:根据preferredCourse查找课程ID，并提交
 	//参考：体育选课.htm
