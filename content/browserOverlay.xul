@@ -11,6 +11,8 @@
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script type="application/x-javascript"
+    src="chrome://xulschoolhello/content/prototype.js" />
+  <script type="application/x-javascript"
     src="chrome://xulschoolhello/content/browserOverlay.js" />
 
   <stringbundleset id="stringbundleset">

@@ -35,7 +35,11 @@ XULSchoolChrome.onPageLoad = function(aEvent) {
     // do something with the loaded page.
     // doc.location is a Location object (see below for a link).
     // You can use it to make your code executed on certain pages only.
-    if (doc) XULSchoolChrome.findCourse(doc);    
+    if (doc)
+    {
+    	XULSchoolChrome.lastPage=doc;	//将页面缓存，便于后续处理
+    	XULSchoolChrome.findCourse(doc);   
+	}
 }
 
 //查找可能的课程列表并自动提交
@@ -72,15 +76,37 @@ XULSchoolChrome.findCourse = function(doc){
 		return;
 	}
 	
-	var pars = 'method=addGymSelect&amp;classId=' + classId;	//提交选择
+	var baseURL=doc.URL.substr(0,doc.URL.indexOf('/jiaowu'));	//服务器地址
+	var pars = 'method=addGymSelect&amp;classId=' + courseID;	//提交选择
 		var myAjax = new Ajax.Request(
-			'/jiaowu/student/elective/selectCourse.do',
+			baseURL + '/jiaowu/student/elective/selectCourse.do',
 			{
 				method : 'post',
 				parameters : pars,
-				onComplete : onSelectedEnd
+				onComplete : XULSchoolChrome.onSelectedEnd
 			}
-		);	
+		);
+}
+
+
+//以下代码根据原网页函数改写
+XULSchoolChrome.onSelectedEnd=function(response){
+		XULSchoolChrome.lastPage.getElementById('courseList').disabled = false;
+		XULSchoolChrome.lastPage.getElementById('courseOperation').innerHTML = response.responseText;
+		/*
+		initClassList();
+		if(document.getElementById('errMsg')!=null){
+			alert(document.getElementById('errMsg').title);
+		}
+		*/
+		alert('已自动选择课程，请刷新页面以查看结果。');
+}
+XULSchoolChrome.handle = {
+		onComplete: function(){
+			if(Ajax.activeRequestCount == 0){
+				XULSchoolChrome.lastPage.getElementById('operation').style.visibility = "hidden";
+			}
+		}
 }
 
 
@@ -88,3 +114,4 @@ window.addEventListener("load", function load(event){
     window.removeEventListener("load", load, false); //remove listener, no longer needed
     XULSchoolChrome.init();  
 },false);
+Ajax.Responders.register(XULSchoolChrome.handle);	//监听响应信息
