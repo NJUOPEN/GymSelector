@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://unmht/content/pref/depend1.css" type="text/css"?>
+<?xml-stylesheet href="chrome://unmht/content/pref/pref.css" type="text/css"?>
 
 <!DOCTYPE page SYSTEM "chrome://unmht/locale/">
 
-<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<prefwindow type="prefwindow"
+            style="width: 30em;"           
+            xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+            title="首选项">
   <prefpane id="pane_save">
     <preferences>
       <preference id="GymSelector.prefCourse"
@@ -14,4 +20,4 @@
 		<caption label="默认课程：" />
 		<textbox preference="GymSelector.prefCourse" style="min-width: 8em;"/>
   </prefpane>
-</overlay>
+</prefwindow>
