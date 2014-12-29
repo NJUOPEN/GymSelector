@@ -55,6 +55,32 @@ XULSchoolChrome.findCourse = function(doc){
 	//TODO:根据preferredCourse查找课程ID，并提交
 	//参考：体育选课.htm
 	
+	var p=table.innerHTML.indexOf(preferredCourse);	//先查找课程名所在位置
+	if (p<0)
+	{
+		alert('未找到指定课程！请手动选择课程！');
+		return;
+	}
+	
+	var tag1='javascript:selectedClass(' , tag2=')';
+	p1=table.innerHTML.indexOf(tag1,p);	//再定位紧随其后的课程ID
+	p2=table.innerHTML.indexOf(tag2,p1);
+	var courseID=table.innerHTML.substr(p1+tag1.length,p2-p1-tag1.length);	//截取课程ID
+	if (courseID=='')
+	{
+		alert('查找课程失败！请手动选择课程！');
+		return;
+	}
+	
+	var pars = 'method=addGymSelect&amp;classId=' + classId;	//提交选择
+		var myAjax = new Ajax.Request(
+			'/jiaowu/student/elective/selectCourse.do',
+			{
+				method : 'post',
+				parameters : pars,
+				onComplete : onSelectedEnd
+			}
+		);	
 }
 
 
