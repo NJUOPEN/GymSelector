@@ -89,7 +89,8 @@ XULSchoolChrome.findCourse = function(){
 		return;
 	}
 	
-	var baseURL=doc.URL.substr(0,doc.URL.indexOf('/jiaowu'));	//服务器地址
+	var baseURL=XULSchoolChrome.lastPage.URL;	//页面地址
+	baseURL=baseURL.substr(0,baseURL.indexOf('/jiaowu'));	//截取服务器地址
 	var pars = 'method=addGymSelect&amp;classId=' + courseID;	//提交选择
 		var myAjax = new Ajax.Request(
 			baseURL + '/jiaowu/student/elective/selectCourse.do',
