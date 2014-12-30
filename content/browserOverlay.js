@@ -37,30 +37,42 @@ XULSchoolChrome.onPageLoad = function(aEvent) {
     // You can use it to make your code executed on certain pages only.
     if (doc)
     {
-    	XULSchoolChrome.lastPage=doc;	//将页面缓存，便于后续处理
-    	XULSchoolChrome.findCourse(doc);   
+    	var list=doc.getElementById('courseList');	//判断是否为所需页面
+		if (!list) return;
+		
+		XULSchoolChrome.lastPage=doc;	//将页面缓存，便于后续处理
+		
+		var db = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);	//获取Firefox的数据库
+		var preferredCourse=db.getComplexValue('extensions.xulschoolhello.prefCourse',
+      Components.interfaces.nsISupportsString).data;	//根据preference.xul中定义的选项名获取对应数据（课程名）
+		if (!preferredCourse || preferredCourse=='')
+		{
+			alert('未设置课程。请先在插件“首选项”中设置课程！');
+			return;
+		}
+		XULSchoolChrome.course=preferredCourse;			
+    	
+    	if (XULSchoolChrome.timer)	//若已有定时器，则先清除之
+    	{
+    		clearInterval(XULSchoolChrome.timer);
+    	}
+    	XULSchoolChrome.timer=setInterval(XULSchoolChrome.findCourse,500);	//设置定时器，每隔0.5秒检查是否已经取得课程列表
 	}
 }
 
 //查找可能的课程列表并自动提交
-XULSchoolChrome.findCourse = function(doc){
+XULSchoolChrome.findCourse = function(){	
 	
-	var db = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch);	//获取Firefox的数据库
-	var preferredCourse=db.getComplexValue('extensions.xulschoolhello.prefCourse',
-      Components.interfaces.nsISupportsString).data;	//根据preference.xul中定义的选项名获取对应数据（课程名）
-	if (!preferredCourse || preferredCourse=='')
-	{
-		alert('未设置课程。请先在插件“首选项”中设置课程！');
-		return;
-	}
-	
-	var table=doc.getElementById('tbCourseList');
+	var table=XULSchoolChrome.lastPage.getElementById('tbCourseList');
 	if (!table) return;
+	
+	clearInterval(XULSchoolChrome.timer);	//检测到课程列表后就停止计时器
+	XULSchoolChrome.timer=null;
 	
 	//TODO:根据preferredCourse查找课程ID，并提交
 	//参考：体育选课.htm
 	
-	var p=table.innerHTML.indexOf(preferredCourse);	//先查找课程名所在位置
+	var p=table.innerHTML.indexOf(XULSchoolChrome.course);	//先查找课程名所在位置
 	if (p<0)
 	{
 		alert('未找到指定课程！请手动选择课程！');
