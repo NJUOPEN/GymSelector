@@ -6,7 +6,7 @@
 <!DOCTYPE page SYSTEM "chrome://unmht/locale/">
 
 <prefwindow type="prefwindow"
-            style="width: 30em;"           
+            style="width: 35em;"           
             xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
             title="首选项">
   <prefpane id="pane_save">
@@ -16,8 +16,10 @@
                   type="string"/>
     </preferences>
 
-
-		<caption label="默认课程：" />
+		<caption label="使用说明：" />
+		<label value="	本插件仅用于自动选择所需课程，使用者须自行承担所有可能的后果。"/>
+		<label value="	建议同时进行手动选课，避免因网络问题导致未能选择预先设定的课程。"/>
+		<caption label="首选课程：" />
 		<textbox preference="GymSelector.prefCourse" style="min-width: 8em;"/>
   </prefpane>
 </prefwindow>
