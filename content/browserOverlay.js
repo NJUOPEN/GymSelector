@@ -80,14 +80,19 @@ XULSchoolChrome.findCourse = function(){
 	}
 	
 	var tag1='javascript:selectedClass(' , tag2=')';
-	p1=table.innerHTML.indexOf(tag1,p);	//再定位紧随其后的课程ID
-	p2=table.innerHTML.indexOf(tag2,p1);
+	var p1=table.innerHTML.indexOf(tag1,p);	//再定位紧随其后的课程ID
+	var p2=table.innerHTML.indexOf(tag2,p1);	
+	if (table.innerHTML.substr(p,p1-p).indexOf('</tr>')>0)	//发现缺项，说明该课程已被选完
+	{
+		alert('所选课程的名额已经被抢完！请手动选择其他课程！');
+		return;
+	}	
 	var courseID=table.innerHTML.substr(p1+tag1.length,p2-p1-tag1.length);	//截取课程ID
 	if (courseID=='')
 	{
 		alert('查找课程失败！请手动选择课程！');
 		return;
-	}
+	}	
 	
 	var baseURL=XULSchoolChrome.lastPage.URL;	//页面地址
 	baseURL=baseURL.substr(0,baseURL.indexOf('/jiaowu'));	//截取服务器地址
